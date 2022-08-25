@@ -41,7 +41,7 @@ const App = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="seckill-containerr index">
+    <div className="admin-containerr index">
       <Form form={form}>
         {FormList.map(({ label, name, placeholder, rules }) => (
           <Form.Item label={label} name={name} rules={rules}>

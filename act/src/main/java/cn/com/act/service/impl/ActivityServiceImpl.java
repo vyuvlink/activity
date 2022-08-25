@@ -10,7 +10,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityDao activityDao;
 
-    public String sceneDecode(String scene) {
+    public String saveScheme(String scene) {
         String query_scene = scene == null ? "" : scene;
         return query_scene;
     }

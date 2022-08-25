@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80025
 File Encoding         : 65001
 
-Date: 2022-08-24 17:03:31
+Date: 2022-08-25 18:26:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,6 +27,10 @@ CREATE TABLE `activity` (
   `start_time` int(10) unsigned zerofill DEFAULT NULL,
   `end_time` int(10) unsigned zerofill DEFAULT NULL,
   `context_id` bigint DEFAULT NULL,
+  `scene_id` char(32) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `type` tinyint(3) unsigned zerofill DEFAULT NULL,
+  `rel_id` bigint DEFAULT NULL,
+  `cover` varchar(512) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
@@ -49,22 +53,41 @@ CREATE TABLE `context` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for goods
+-- Table structure for item
 -- ----------------------------
-DROP TABLE IF EXISTS `goods`;
-CREATE TABLE `goods` (
+DROP TABLE IF EXISTS `item`;
+CREATE TABLE `item` (
   `id` bigint NOT NULL,
   `name` varchar(50) DEFAULT NULL,
-  `amount` int(10) unsigned zerofill DEFAULT NULL,
+  `total` int(10) unsigned zerofill DEFAULT NULL,
   `qty` int(10) unsigned zerofill DEFAULT NULL,
   `type` tinyint(3) unsigned zerofill DEFAULT NULL,
   `create_time` int(10) unsigned zerofill DEFAULT NULL,
   `modify_time` int(10) unsigned zerofill DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `rel_id` bigint DEFAULT NULL,
+  `rel_type` tinyint(3) unsigned zerofill DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rel_id` (`rel_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
--- Records of goods
+-- Records of item
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for scene
+-- ----------------------------
+DROP TABLE IF EXISTS `scene`;
+CREATE TABLE `scene` (
+  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `scene` char(32) DEFAULT NULL,
+  `param` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `scene` (`param`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of scene
 -- ----------------------------
 
 -- ----------------------------
@@ -73,6 +96,7 @@ CREATE TABLE `goods` (
 DROP TABLE IF EXISTS `scheme`;
 CREATE TABLE `scheme` (
   `id` bigint NOT NULL,
+  `type` tinyint(3) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 

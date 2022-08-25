@@ -3,7 +3,7 @@ package cn.com.act.po;
 import java.util.StringJoiner;
 
 public class UserPo {
-    private long id;
+    private Long id;
     private String name;
     private String phone;
     private String password;
@@ -20,11 +20,11 @@ public class UserPo {
                 .toString();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -1,19 +1,42 @@
 package cn.com.act.po;
 
-public class ActivityPo {
-    private String id;
-    private String name;
-    private String scheme_id;
-    private int state;
-    private String start_time;
-    private String end_time;
-    private String context_id;
+import java.util.StringJoiner;
 
-    public String getId() {
+public class ActivityPo {
+    private Long id;
+    private String name;
+    private Long scheme_id;
+    private Integer state;
+    private Integer start_time;
+    private Integer end_time;
+    private Long context_id;
+    private String scene_id;
+    private Integer type;
+    private Long rel_id;
+    private String cover;
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", ActivityPo.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("scheme_id=" + scheme_id)
+                .add("state=" + state)
+                .add("start_time=" + start_time)
+                .add("end_time=" + end_time)
+                .add("context_id=" + context_id)
+                .add("scene_id='" + scene_id + "'")
+                .add("type=" + type)
+                .add("rel_id=" + rel_id)
+                .add("cover='" + cover + "'")
+                .toString();
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -25,43 +48,75 @@ public class ActivityPo {
         this.name = name;
     }
 
-    public String getScheme_id() {
+    public Long getScheme_id() {
         return scheme_id;
     }
 
-    public void setScheme_id(String scheme_id) {
+    public void setScheme_id(Long scheme_id) {
         this.scheme_id = scheme_id;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public String getStart_time() {
+    public Integer getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(String start_time) {
+    public void setStart_time(Integer start_time) {
         this.start_time = start_time;
     }
 
-    public String getEnd_time() {
+    public Integer getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(String end_time) {
+    public void setEnd_time(Integer end_time) {
         this.end_time = end_time;
     }
 
-    public String getContext_id() {
+    public Long getContext_id() {
         return context_id;
     }
 
-    public void setContext_id(String context_id) {
+    public void setContext_id(Long context_id) {
         this.context_id = context_id;
+    }
+
+    public String getScene_id() {
+        return scene_id;
+    }
+
+    public void setScene_id(String scene_id) {
+        this.scene_id = scene_id;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Long getRel_id() {
+        return rel_id;
+    }
+
+    public void setRel_id(Long rel_id) {
+        this.rel_id = rel_id;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 }

@@ -23,9 +23,4 @@ public class ActivityController {
 //    public CommonResult<String> sceneDecode(@RequestParam String scene) {
 //        return CommonResult.success(activityService.sceneDecode(scene));
 //    }
-//
-//    @RequestMapping(value = "/scene/encode", method = RequestMethod.POST)
-//    public CommonResult<String> sceneEncode(@RequestBody String scene) {
-//        return CommonResult.success(activityService.sceneEncode(scene));
-//    }
 }

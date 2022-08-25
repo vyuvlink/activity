@@ -3,7 +3,7 @@ package cn.com.act.dto;
 import java.util.StringJoiner;
 
 public class UserDto {
-    private long id;
+    private String id;
     private String name;
     private String phone;
     private String password;
@@ -12,7 +12,7 @@ public class UserDto {
     @Override
     public String toString() {
         return new StringJoiner(", ", UserDto.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
+                .add("id='" + id + "'")
                 .add("name='" + name + "'")
                 .add("phone='" + phone + "'")
                 .add("password='" + password + "'")
@@ -20,11 +20,11 @@ public class UserDto {
                 .toString();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

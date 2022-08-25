@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 
 const ClientPage = lazy(() => import("./client"));
 const AdminPage = lazy(() => import("./admin"));
+const AdminActPage = lazy(() => import("./admin/act"));
 
 const AsyncComponent = (C) => (
   <Suspense fallback={<div>loading...</div>} children={<C />} />
@@ -17,6 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/index" element={AsyncComponent(ClientPage)} />
         <Route path="/admin" element={AsyncComponent(AdminPage)} />
+        <Route path="/admin/act" element={AsyncComponent(AdminActPage)} />
       </Routes>
     </BrowserRouter>
   );
