@@ -1,47 +1,58 @@
+import "./index.scss";
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Upload, DatePicker } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { saveActivity, uploadFile } from "../services/admin";
+import { Button, Form, Input, message, DatePicker } from "antd";
+import { queryActivity, saveActivity, uploadFile } from "../services/admin";
 import moment from "moment";
-import { UploadChangeParam, UploadFile } from "antd/lib/upload";
+import { useLocation } from "react-router";
+import { parseSearchParams } from "../utils";
+import Upload from "../component/upload";
 
 const { RangePicker } = DatePicker;
 
-const cover_image =
-  "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
-
-const App = () => {
+const Act = () => {
+  const { search } = useLocation();
+  const { activity_id }: any = parseSearchParams(search);
   const [form] = Form.useForm();
+  const { getFieldValue, validateFields, getFieldsValue } = form;
+  const [data, setData] = useState();
+
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const cover = form.getFieldValue("cover");
+
+  const cover = getFieldValue("cover");
+  const id = getFieldValue("id");
 
   const onSubmit = () => {
     if (loading) {
       message.info("操作繁忙，请稍后再试！");
       return;
     }
-    form.validateFields().then(() => {
+    validateFields().then(() => {
       setLoading(true);
-      saveActivity(form.getFieldsValue())
+      const formData = getFieldsValue();
+      const submitData = {
+        ...formData,
+        start_time: Math.floor(
+          moment(formData.time[0]).get().toDate().getTime() / 1000
+        ),
+        end_time: Math.floor(
+          moment(formData.time[1]).get().toDate().getTime() / 1000
+        ),
+      };
+      saveActivity(submitData)
         .then(() => {})
         .finally(() => setLoading(false));
     });
   };
 
-  console.log(form.getFieldsValue());
-
-  const onUpload = (info: UploadChangeParam<UploadFile>) => {
-    uploadFile(info.file.originFileObj).then((res) => {
-      form.setFieldsValue({ cover: res.data });
-    });
-    if (info.file.status === "uploading") {
-      setUploading(true);
-      return;
-    }
+  const uploadMethod = ({ files, onSuccess, onError, onProgress }) => {
+    uploadFile(files[0])
+      .then((res) => {
+        onSuccess();
+        form.setFieldValue("cover", res.data);
+        setData({ ...data });
+      })
+      .catch(() => onError());
   };
-
-  const onDateChange = () => {};
 
   const FormList = [
     {
@@ -51,33 +62,33 @@ const App = () => {
       placeholder: "请输入活动名称",
     },
     {
-      label: "请上传封面",
+      label: "封面图",
       name: "cover",
-      rules: [{ required: true, message: "请上传封面" }],
-      placeholder: "请上传封面",
+      rules: [{ required: true, message: "请上传封面图" }],
+      placeholder: "请上传封面图",
       el: (
-        <Upload
-          listType="picture-card"
-          showUploadList={false}
-          onChange={onUpload}
-          customRequest={() => {}}
-        >
-          {cover ? (
-            <img src={cover} alt="avatar" style={{ width: "100%" }} />
-          ) : (
-            <div>
-              {uploading ? <LoadingOutlined /> : <PlusOutlined />}
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          )}
-        </Upload>
+        <>
+          <Upload image={cover} uploadMethod={uploadMethod} />
+        </>
       ),
     },
     {
-      label: "活动名称",
+      label: "活动时间",
       name: "time",
-      rules: [{ required: true, message: "请输入活动名称" }],
-      placeholder: "请输入活动名称",
+      rules: [
+        {
+          validator: (_, value, cb) => {
+            if (!value) {
+              cb("请选择活动时间");
+            } else if (id && !moment(data.start_time).isSame(value[0])) {
+              cb("活动发布后，开始时间不允许更改");
+            } else {
+              cb();
+            }
+          },
+        },
+      ],
+      placeholder: "请选择活动时间",
       el: (
         <RangePicker
           format="YYYY-MM-DD HH:mm:ss"
@@ -88,17 +99,24 @@ const App = () => {
               moment("23:59:59", "HH:mm:ss"),
             ],
           }}
-          onChange={onDateChange}
         />
       ),
     },
   ];
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // if (activity_id) {
+    //   queryActivity({ activity_id }).then(({ data }) => {
+    //     setData(data);
+    //     form.setFieldsValue({ data });
+    //   });
+    // }
+  }, []);
 
   return (
     <div className="admin-containerr">
       <Form form={form}>
+        <Form.Item name="id" key={-1} className="hidden"></Form.Item>
         {FormList.map(
           ({ label, name, placeholder, rules, el = null }, index) => {
             const RenderEl = el || <Input placeholder={placeholder} />;
@@ -124,4 +142,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Act;

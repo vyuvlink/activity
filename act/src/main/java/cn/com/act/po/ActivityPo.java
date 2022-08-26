@@ -10,7 +10,9 @@ public class ActivityPo {
     private Integer start_time;
     private Integer end_time;
     private Long context_id;
-    private String scene_id;
+    private String context;
+    private Long scene_id;
+    private String scene;
     private Integer type;
     private Long rel_id;
     private String cover;
@@ -25,7 +27,9 @@ public class ActivityPo {
                 .add("start_time=" + start_time)
                 .add("end_time=" + end_time)
                 .add("context_id=" + context_id)
-                .add("scene_id='" + scene_id + "'")
+                .add("context='" + context + "'")
+                .add("scene_id=" + scene_id)
+                .add("scene='" + scene + "'")
                 .add("type=" + type)
                 .add("rel_id=" + rel_id)
                 .add("cover='" + cover + "'")
@@ -88,12 +92,28 @@ public class ActivityPo {
         this.context_id = context_id;
     }
 
-    public String getScene_id() {
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public Long getScene_id() {
         return scene_id;
     }
 
-    public void setScene_id(String scene_id) {
+    public void setScene_id(Long scene_id) {
         this.scene_id = scene_id;
+    }
+
+    public String getScene() {
+        return scene;
+    }
+
+    public void setScene(String scene) {
+        this.scene = scene;
     }
 
     public Integer getType() {

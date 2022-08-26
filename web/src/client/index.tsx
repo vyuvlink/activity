@@ -1,7 +1,7 @@
 import "./index.scss";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator } from "antd-mobile";
-import { useLocation } from "react-router";
+// import { useLocation } from "react-router";
 import { parseSearchParams } from "../utils";
 import { decodeSence } from "../services/client";
 import ListPage from "./list";
@@ -10,8 +10,9 @@ import md5 from "md5";
 import CryptoJS from "crypto-js";
 
 const App = () => {
-  const { search } = useLocation();
-  const { scene }: any = parseSearchParams(search);
+  // const { search } = useLocation();
+  // const { scene }: any = parseSearchParams(search);
+  const scene = null;
   const [loading, setLoading] = useState(true);
   const [pageType, setPageType] = useState();
   const Page = (pageType === "list" && ListPage) ||

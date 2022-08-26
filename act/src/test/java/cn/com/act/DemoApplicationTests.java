@@ -63,7 +63,7 @@ class DemoApplicationTests {
 
     @Test
     void testMd5() {
-        String pws = DigestUtils.md5DigestAsHex("abd".getBytes());
+        String pws = DigestUtils.md5DigestAsHex(randomString(16).getBytes());
         System.out.println(pws);
     }
 

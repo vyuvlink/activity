@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80025
 File Encoding         : 65001
 
-Date: 2022-08-25 18:26:18
+Date: 2022-08-26 17:58:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,12 +31,16 @@ CREATE TABLE `activity` (
   `type` tinyint(3) unsigned zerofill DEFAULT NULL,
   `rel_id` bigint DEFAULT NULL,
   `cover` varchar(512) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `rel_id` (`id`,`rel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
+INSERT INTO `activity` VALUES ('8251335812787544064', 'alex的测试活动1', '1', '1', '1661443200', '1661961599', '1', '1', '000', '8251393772553838592', 'http://127.0.0.1:3001/uploads/MOfN8C2I5QckpEsnRXEw3wEk.png');
+INSERT INTO `activity` VALUES ('8251392872166793216', 'alex的测试活动2', '2', '1', '1661443200', '1661961599', '1', '1', '000', '8251393772553838592', 'http://127.0.0.1:3001/uploads/MOfN8C2I5QckpEsnRXEw3wEk.png');
+INSERT INTO `activity` VALUES ('8251393772553838592', 'alex的测试活动3', '0', '1', '1661443200', '1661961599', '1', '1', '001', '0', 'http://127.0.0.1:3001/uploads/MOfN8C2I5QckpEsnRXEw3wEk.png');
 
 -- ----------------------------
 -- Table structure for context
@@ -51,6 +55,7 @@ CREATE TABLE `context` (
 -- ----------------------------
 -- Records of context
 -- ----------------------------
+INSERT INTO `context` VALUES ('1', '\"{}\"');
 
 -- ----------------------------
 -- Table structure for item
@@ -83,12 +88,13 @@ CREATE TABLE `scene` (
   `scene` char(32) DEFAULT NULL,
   `param` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `scene` (`param`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `scene` (`scene`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of scene
 -- ----------------------------
+INSERT INTO `scene` VALUES ('0000000001', '923744bb9ed7489b0a8fc9fc0fc0494e', '\"{\"activity_id\":\"8251335812787544064\"}\"');
 
 -- ----------------------------
 -- Table structure for scheme
@@ -103,6 +109,7 @@ CREATE TABLE `scheme` (
 -- ----------------------------
 -- Records of scheme
 -- ----------------------------
+INSERT INTO `scheme` VALUES ('1', '001');
 
 -- ----------------------------
 -- Table structure for user

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.act.dao.ActivityDao">
+
+    <resultMap id="BaseResultMap" type="cn.com.act.po.ActivityPo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="scheme_id" jdbcType="BIGINT" property="scheme_id"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="start_time" jdbcType="INTEGER" property="start_time"/>
+        <result column="end_time" jdbcType="INTEGER" property="end_time"/>
+        <result column="context_id" jdbcType="BIGINT" property="context_id"/>
+        <result column="scene_id" jdbcType="CHAR" property="scene_id"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="rel_id" jdbcType="BIGINT" property="rel_id"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+    </resultMap>
+
+    <select id="saveActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
+        select *
+        from user
+        where id = #{id}
+    </select>
+
+    <insert id="insertActivity" parameterType="cn.com.act.po.ActivityPo">
+        insert into activity (id, name, start_time,
+        end_time, cover)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{start_time,jdbcType=INTEGER},
+        #{end_time,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertScene" parameterType="cn.com.act.po.ScenePo">
+        INSERT INTO scene (scene, param)
+        VALUES
+        (#{scene,jdbcType=CHAR}, #{param,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="queryActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
+        SELECT
+            a.*,
+            s.scene,
+            c.context
+        FROM
+            activity AS a,
+            scene AS s,
+            context AS c
+        WHERE
+            a.scene_id = s.id
+          AND a.context_id = c.id and a.id = #{id};
+    </select>
+
+    <select id="queryMultiActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
+        SELECT
+            a.*,
+            s.scene,
+            c.context
+        FROM
+            activity AS a,
+            scene AS s,
+            context AS c
+        WHERE
+            a.scene_id = s.id
+          AND a.context_id = c.id and a.rel_id = #{id};
+    </select>
+
+    <select id="queryActivitys" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
+        SELECT
+            a.*,
+            s.scene,
+            c.context
+        FROM
+            activity AS a,
+            scene AS s,
+            context AS c
+        WHERE
+            a.scene_id = s.id
+          AND a.context_id = c.id and a.rel_id = #{id} or a.id = #{id} ORDER BY scheme_id;
+    </select>
+
+</mapper>

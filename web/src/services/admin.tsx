@@ -8,6 +8,9 @@ export const Login = (data) => api.post("/user/backend/login", data);
 export const saveActivity = (data) =>
   api.post("/act/backend/save_activity", data);
 
+export const queryActivity = (data) =>
+  api.get("/act/backend/query_activity", { params: data });
+
 export const uploadFile = (file) => {
   const body = new FormData();
   body.append("file", file);

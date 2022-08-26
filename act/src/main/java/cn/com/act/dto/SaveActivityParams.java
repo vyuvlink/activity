@@ -1,10 +1,13 @@
 package cn.com.act.dto;
 
+import lombok.Data;
+
+@Data
 public class SaveActivityParams {
-    private String id;
+    private Long id;
     private String name;
-    private String scheme_id;
-    private String start_time;
-    private String end_time;
+    private Long scheme_id;
+    private Integer start_time;
+    private Integer end_time;
     private String context;
 }

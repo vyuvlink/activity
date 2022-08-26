@@ -1,6 +1,5 @@
 package cn.com.act.po;
 
-import java.util.List;
 import java.util.StringJoiner;
 
 public class SchemePo {

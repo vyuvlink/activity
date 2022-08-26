@@ -1,7 +1,10 @@
 package cn.com.act.dto;
 
+import lombok.Data;
+
+@Data
 public class ActivityQueryParams {
-    private long id;
+    private Long id;
     private String name;
-    private int state;
+    private Integer state;
 }
