@@ -1,16 +1,26 @@
 package cn.com.act.controller;
 
+import cn.com.act.common.enums.ResultEnum;
 import cn.com.act.common.redis.RedisUtil;
 import cn.com.act.common.result.CommonResult;
 import cn.com.act.dto.UserDto;
+import cn.com.act.service.HelloService;
+import cn.com.act.util.RandomUtil;
 import cn.com.act.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static cn.com.act.common.enums.ResultEnum.UNKNOWN;
 
@@ -18,6 +28,9 @@ import static cn.com.act.common.enums.ResultEnum.UNKNOWN;
 @RequestMapping("hello")
 public class HelloWorldController {
     Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private HelloService helloService;
 
     @Autowired
     RedisUtil redisUtil;
@@ -79,6 +92,34 @@ public class HelloWorldController {
         logger.warn("warn 级别日志");
         logger.error("error 级别日志");
         return CommonResult.success("");
+    }
+
+    @RequestMapping("/hash")
+    public CommonResult<String> hash(@RequestParam Integer qty) {
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < qty; i++) {
+            String str = DigestUtils.md5DigestAsHex(RandomUtil.randomString(16).getBytes());
+            list.add("\"" + str + "\"");
+        }
+        String newName = UUID.randomUUID().toString() + System.currentTimeMillis() + ".txt";
+        File file = new File("D:/developer/project/uploads", newName);
+//        System.out.printf("dir:" + System.getProperty("user.dir"));
+        try {
+            FileOutputStream fs = new FileOutputStream(file);
+            fs.write(list.toString().getBytes(StandardCharsets.UTF_8));
+            fs.flush();
+            fs.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return CommonResult.error(ResultEnum.LOCKED, "fail");
+        }
+
+        return CommonResult.success("done");
+    }
+
+    @RequestMapping("/generate_activitys")
+    public CommonResult<Integer> generateActivitys(@RequestParam Integer qty) {
+        return CommonResult.success(helloService.generateActivitys(qty));
     }
 }
 

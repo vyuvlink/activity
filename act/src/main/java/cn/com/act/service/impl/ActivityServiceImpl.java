@@ -53,28 +53,24 @@ public class ActivityServiceImpl implements ActivityService {
         List<ActivityPo> poList = activityDao.queryActivitys(id);
         ActivityDto dto = new ActivityDto();
         List<SchemePo> sList = new ArrayList<SchemePo>();
-        if (poList.size() > 0) {
-            for (ActivityPo p : poList) {
-                if (p.getScheme_id() == 0) {
-                    dto.setScheme_id(p.getScheme_id().toString());
-                    dto.setId(p.getId().toString());
-                    dto.setName(p.getName());
-                    dto.setState(p.getState());
-                    dto.setScene(p.getScene());
-                    dto.setContext(p.getContext());
-                    dto.setStart_time(p.getStart_time());
-                    dto.setEnd_time(p.getEnd_time());
-                } else {
-                    SchemePo s = new SchemePo();
-                    s.setId(p.getScene_id());
-                    s.setType(p.getType());
-                    sList.add(s);
-                }
-            }
-            if (sList.size() > 0) {
-                dto.setScheme_list(sList);
+        for (ActivityPo p : poList) {
+            if (p.getScheme_id() == 0 || poList.size() == 1) {
+                dto.setScheme_id(p.getScheme_id().toString());
+                dto.setId(p.getId().toString());
+                dto.setName(p.getName());
+                dto.setState(p.getState());
+                dto.setScene(p.getScene());
+                dto.setContext(p.getContext());
+                dto.setStart_time(p.getStart_time());
+                dto.setEnd_time(p.getEnd_time());
+            } else {
+                SchemePo s = new SchemePo();
+                s.setId(p.getScheme_id());
+                s.setType(p.getType());
+                sList.add(s);
             }
         }
+        dto.setScheme_list(sList);
 
         return dto;
     }

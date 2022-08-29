@@ -11,10 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.DigestUtils; // MD5
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -27,8 +24,8 @@ class DemoApplicationTests {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuffer s = new StringBuffer();
         Random random = new Random();
-        for(int i=0;i<length;i++){
-            int number=random.nextInt(62);
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
             s.append(str.charAt(number));
         }
         s.append(":");
@@ -38,16 +35,14 @@ class DemoApplicationTests {
 
     @Test
     void testHash() {
-        HashSet<String> set = new HashSet<String>();
+//        HashSet<String> set = new HashSet<String>();
+        List<String> list = new ArrayList<String>();
         int count = 0;
+        int max = 10000;
         long stime = System.currentTimeMillis();
-        for(int i = 0;i<50000000;i++) {
+        for (int i = 0; i < 50000000; i++) {
             String str = DigestUtils.md5DigestAsHex(randomString(16).getBytes());
-            if (set.contains(str)) {
-                count++;
-            } else {
-                set.add(str);
-            }
+            list.add(str);
         }
         long etime = System.currentTimeMillis();
         System.out.println("碰撞次数：" + count);
