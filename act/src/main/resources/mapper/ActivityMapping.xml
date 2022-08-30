@@ -16,65 +16,16 @@
         <result column="cover" jdbcType="VARCHAR" property="cover"/>
     </resultMap>
 
-    <select id="saveActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
-        select *
-        from user
-        where id = #{id}
-    </select>
-
-    <insert id="insertActivity" parameterType="cn.com.act.po.ActivityPo">
-        insert into activity (id, name, start_time,
-        end_time, cover)
-        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{start_time,jdbcType=INTEGER},
-        #{end_time,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR})
-    </insert>
-
-    <insert id="insertScene" parameterType="cn.com.act.po.ScenePo">
-        INSERT INTO scene (scene, param)
-        VALUES
-        (#{scene,jdbcType=CHAR}, #{param,jdbcType=VARCHAR})
-    </insert>
-
     <select id="queryActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
         SELECT
-            a.*,
-            s.scene,
-            c.context
+            a.*, context, scene
         FROM
             activity AS a,
-            scene AS s,
-            context AS c
+            context AS c,
+            scene AS s
         WHERE
-            a.scene_id = s.id
-          AND a.context_id = c.id and a.id = #{id};
-    </select>
-
-    <select id="queryMultiActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
-        SELECT
-            a.*,
-            s.scene,
-            c.context
-        FROM
-            activity AS a,
-            scene AS s,
-            context AS c
-        WHERE
-            a.scene_id = s.id
-          AND a.context_id = c.id and a.rel_id = #{id};
-    </select>
-
-    <select id="queryActivitys" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
-        SELECT
-            a.*,
-            s.scene,
-            c.context
-        FROM
-            activity AS a,
-            scene AS s,
-            context AS c
-        WHERE
-            a.scene_id = s.id
-          AND a.context_id = c.id and a.rel_id = #{id} or a.id = #{id} ORDER BY scheme_id;
+            a.context_id = c.id
+          AND a.scene_id = s.id;
     </select>
 
 </mapper>

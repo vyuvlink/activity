@@ -17,26 +17,71 @@
     </resultMap>
 
     <insert id="generateActivitys" parameterType="list" useGeneratedKeys="true" keyProperty="id">
-        insert into activity (id, name, start_time, end_time, cover)
+        insert into activity (id, name, state, start_time, end_time, context_id, scene_id, cover)
         values
         <foreach collection="list" item="it" separator=",">
-            (#{it.id,jdbcType=BIGINT},#{it.name,jdbcType=VARCHAR},#{it.start_time,jdbcType=INTEGER},#{it.end_time,jdbcType=INTEGER},#{it.cover,jdbcType=VARCHAR})
+            (
+                #{it.id,jdbcType=BIGINT},
+                #{it.name,jdbcType=VARCHAR},
+                #{it.state,jdbcType=INTEGER},
+                #{it.start_time,jdbcType=INTEGER},
+                #{it.end_time,jdbcType=INTEGER},
+                #{it.context_id,jdbcType=BIGINT},
+                #{it.scene_id,jdbcType=BIGINT},
+                #{it.cover,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="generateItems" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        insert into item (item_id, name, total, qty, type, create_time, modify_time, rel_type, rel_id)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (
+                #{it.item_id,jdbcType=BIGINT},
+                #{it.name,jdbcType=VARCHAR},
+                #{it.total,jdbcType=INTEGER},
+                #{it.qty,jdbcType=INTEGER},
+                #{it.type,jdbcType=INTEGER},
+                #{it.create_time,jdbcType=INTEGER},
+                #{it.modify_time,jdbcType=INTEGER},
+                #{it.rel_type,jdbcType=INTEGER},
+                #{it.rel_id,jdbcType=BIGINT}
+            )
         </foreach>
     </insert>
 
     <insert id="generateSchemes" parameterType="list" useGeneratedKeys="true" keyProperty="id">
-        insert into scheme (id, type)
+        insert into scheme (type, scheme_id, rel_type, rel_id)
         values
         <foreach collection="list" item="it" separator=",">
-            (#{it.id,jdbcType=BIGINT},#{it.type,jdbcType=INTEGER})
+            (
+                #{it.type,jdbcType=INTEGER},
+                #{it.scheme_id,jdbcType=BIGINT},
+                #{it.rel_type,jdbcType=INTEGER},
+                #{it.rel_id,jdbcType=BIGINT}
+            )
         </foreach>
     </insert>
 
     <insert id="generateScenes" parameterType="list" useGeneratedKeys="true" keyProperty="id">
-        insert into scheme (id, scene, param)
+        insert into scene (scene, param)
         values
         <foreach collection="list" item="it" separator=",">
-            (#{it.id,jdbcType=INTEGER},#{it.type,jdbcType=CHAR},#{it.type,jdbcType=VARCHAR})
+            (
+                #{it.scene,jdbcType=CHAR},
+                #{it.param,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="generateContexts" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        insert into context (context)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (
+                #{it.context,jdbcType=VARCHAR}
+            )
         </foreach>
     </insert>
 </mapper>

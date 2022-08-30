@@ -1,5 +1,6 @@
 package cn.com.act.dto;
 
+import cn.com.act.po.ItemPo;
 import cn.com.act.po.SchemePo;
 import lombok.Data;
 
@@ -15,5 +16,6 @@ public class ActivityDto {
     private Integer end_time;
     private String context;
     private String scene;
-    private List<SchemePo> scheme_list;
+    private List<SchemeDto> scheme_list;
+    private List<ItemDto> item_list;
 }

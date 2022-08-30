@@ -1,8 +1,11 @@
 package cn.com.act.dao;
 
 import cn.com.act.dto.ActivityQueryParams;
+import cn.com.act.dto.ItemDto;
 import cn.com.act.dto.SaveActivityParams;
+import cn.com.act.dto.SchemeDto;
 import cn.com.act.po.ActivityPo;
+import cn.com.act.po.SchemePo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +16,7 @@ public interface ActivityDao {
 
     ActivityPo queryActivity(Long id, String name, Integer state);
 
-    List<ActivityPo> queryMultiActivity(Long id);
+    List<SchemeDto> querySchemes(Long id);
 
-    List<ActivityPo> queryActivitys(Long id);
+    List<ItemDto> queryItems(List<String> ids);
 }

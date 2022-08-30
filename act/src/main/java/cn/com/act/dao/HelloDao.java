@@ -1,8 +1,6 @@
 package cn.com.act.dao;
 
-import cn.com.act.po.ActivityPo;
-import cn.com.act.po.ScenePo;
-import cn.com.act.po.SchemePo;
+import cn.com.act.po.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,4 +12,8 @@ public interface HelloDao {
     int generateSchemes(List<SchemePo> list);
 
     int generateScenes(List<ScenePo> list);
+
+    int generateContexts(List<ContextPo> list);
+
+    int generateItems(List<ItemPo> list);
 }
