@@ -22,3 +22,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/act?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: root
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countsql

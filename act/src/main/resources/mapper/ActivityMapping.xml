@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.act.dao.ActivityDao">
 
-    <resultMap id="BaseResultMap" type="cn.com.act.po.ActivityPo">
+    <resultMap id="activityMap" type="cn.com.act.dto.ActivityDto">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="scheme_id" jdbcType="BIGINT" property="scheme_id"/>
@@ -10,22 +10,88 @@
         <result column="start_time" jdbcType="INTEGER" property="start_time"/>
         <result column="end_time" jdbcType="INTEGER" property="end_time"/>
         <result column="context_id" jdbcType="BIGINT" property="context_id"/>
+        <result column="context" jdbcType="VARCHAR" property="context"/>
         <result column="scene_id" jdbcType="CHAR" property="scene_id"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
-        <result column="rel_id" jdbcType="BIGINT" property="rel_id"/>
+        <result column="scene" jdbcType="CHAR" property="scene"/>
         <result column="cover" jdbcType="VARCHAR" property="cover"/>
     </resultMap>
 
-    <select id="queryActivity" parameterType="cn.com.act.po.ActivityPo" resultMap="BaseResultMap">
+    <resultMap id="schemeMap" type="cn.com.act.dto.SchemeDto">
+        <id column="scheme_id" jdbcType="BIGINT" property="scheme_id"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="rel_id" jdbcType="BIGINT" property="rel_id"/>
+        <result column="rel_type" jdbcType="INTEGER" property="rel_type"/>
+    </resultMap>
+
+    <resultMap id="itemMap" type="cn.com.act.dto.ItemDto">
+        <id column="item_id" jdbcType="BIGINT" property="item_id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="total" jdbcType="INTEGER" property="total"/>
+        <result column="qty" jdbcType="INTEGER" property="qty"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="create_time" jdbcType="INTEGER" property="create_time"/>
+        <result column="modify_time" jdbcType="INTEGER" property="modify_time"/>
+        <result column="rel_id" jdbcType="BIGINT" property="rel_id"/>
+        <result column="rel_type" jdbcType="INTEGER" property="rel_type"/>
+    </resultMap>
+
+    <resultMap id="sceneMap" type="cn.com.act.po.ScenePo">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="scene" jdbcType="CHAR" property="scene"/>
+        <result column="param" jdbcType="VARCHAR" property="param"/>
+    </resultMap>
+
+    <select id="queryAllActivity" resultMap="activityMap">
         SELECT
-            a.*, context, scene
+            a.*, context,
+            scene
         FROM
             activity AS a,
             context AS c,
             scene AS s
         WHERE
             a.context_id = c.id
+        AND a.scene_id = s.id
+        <if test="state!=null">
+            AND a.state = #{state,jdbcType=INTEGER}
+        </if>
+        <if test="name!=null and name!=''">
+            AND a.name LIKE concat("%", #{name,jdbcType=VARCHAR}, "%")
+        </if>
+    </select>
+
+    <select id="queryActivity" resultMap="activityMap">
+        SELECT a.*,
+               context,
+               scene
+        FROM activity AS a,
+             context AS c,
+             scene AS s
+        WHERE a.id = #{id,jdbcType=BIGINT}
+          and a.context_id = c.id
           AND a.scene_id = s.id;
+    </select>
+
+    <select id="querySchemes" resultMap="schemeMap">
+        SELECT *
+        FROM scheme
+        WHERE rel_id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryItems" resultMap="itemMap">
+        SELECT *
+        FROM item
+        WHERE 1=1
+        <foreach collection="list" item="it" separator="or">
+            and
+            rel_id = #{it,jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+    <select id="sceneDecode" resultMap="sceneMap">
+        SELECT scene
+        FROM scene
+        WHERE scene = #{scene,jdbcType=CHAR};
     </select>
 
 </mapper>

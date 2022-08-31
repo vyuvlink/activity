@@ -16,7 +16,7 @@
         <result column="cover" jdbcType="VARCHAR" property="cover"/>
     </resultMap>
 
-    <insert id="generateActivitys" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    <insert id="generateActivitys" useGeneratedKeys="true" keyProperty="id">
         insert into activity (id, name, state, start_time, end_time, context_id, scene_id, cover)
         values
         <foreach collection="list" item="it" separator=",">
@@ -33,7 +33,7 @@
         </foreach>
     </insert>
 
-    <insert id="generateItems" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    <insert id="generateItems" useGeneratedKeys="true" keyProperty="item_id">
         insert into item (item_id, name, total, qty, type, create_time, modify_time, rel_type, rel_id)
         values
         <foreach collection="list" item="it" separator=",">
@@ -51,7 +51,7 @@
         </foreach>
     </insert>
 
-    <insert id="generateSchemes" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    <insert id="generateSchemes" useGeneratedKeys="true" keyProperty="scheme_id">
         insert into scheme (type, scheme_id, rel_type, rel_id)
         values
         <foreach collection="list" item="it" separator=",">
@@ -64,7 +64,7 @@
         </foreach>
     </insert>
 
-    <insert id="generateScenes" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    <insert id="generateScenes" useGeneratedKeys="true" keyProperty="id">
         insert into scene (scene, param)
         values
         <foreach collection="list" item="it" separator=",">
@@ -75,7 +75,7 @@
         </foreach>
     </insert>
 
-    <insert id="generateContexts" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+    <insert id="generateContexts" useGeneratedKeys="true" keyProperty="id">
         insert into context (context)
         values
         <foreach collection="list" item="it" separator=",">
