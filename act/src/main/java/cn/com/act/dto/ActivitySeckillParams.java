@@ -4,7 +4,9 @@ import lombok.Data;
 
 @Data
 public class ActivitySeckillParams {
-    private String user_id;
-    private String item_id;
+    private Long order_id;
+    private Long user_id;
+    private Long item_id;
+    private Long rel_id;
     private Integer create_time;
 }

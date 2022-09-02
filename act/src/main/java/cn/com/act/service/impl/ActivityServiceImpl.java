@@ -65,14 +65,31 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public String seckill(ActivitySeckillParams activitySeckillParams) {
-        String cacheKey = activitySeckillParams.getUser_id() + ":" + activitySeckillParams.getItem_id();
+        String cacheKey = "seckill:" + activitySeckillParams.getUser_id() + ":" + activitySeckillParams.getItem_id();
+        Object stock = redisUtil.get("seckill_stock:" + activitySeckillParams.getItem_id());
+        int currentQty = 0;
+        if (stock == null) {
+            ItemDto io = activityDao.queryItem(activitySeckillParams.getItem_id());
+            int qty = io.getTotal() - io.getQty();
+            currentQty = qty > 1 ? qty - 1 : qty;
+            redisUtil.set("seckill_stock:" + io.getItem_id(), currentQty, 86400);
+        } else if ((int) stock > 0) {
+            currentQty = (int) stock;
+        }
+        if (currentQty == 0) {
+            return "已售罄";
+        }
         if (redisUtil.get(cacheKey) == null) {
-            boolean cache = redisUtil.set(cacheKey, activitySeckillParams.toString(), 86400);
-            int stock = (int) redisUtil.get("seckill_stock:" + activitySeckillParams.getItem_id());
-            if (!cache) {
+            redisUtil.set(cacheKey, activitySeckillParams.toString(), 86400);
+            if (currentQty > 0) {
+                activitySeckillParams.setOrder_id(SnowFlake.nextId());
+                activitySeckillParams.setRel_id(activitySeckillParams.getItem_id());
+                activityDao.seckill(activitySeckillParams);
                 rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE, RabbitMqConfig.ROUTINGKEY, activitySeckillParams.toString());
             }
+
+            return "秒杀成功";
         }
-        return "done";
+        return "已参与秒杀";
     }
 }

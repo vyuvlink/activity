@@ -21,5 +21,7 @@ public interface ActivityDao {
 
     List<ItemDto> queryItems(List<String> ids);
 
-    String seckill(ActivitySeckillParams activitySeckillParams);
+    ItemDto queryItem(Long item_id);
+
+    Integer seckill(ActivitySeckillParams activitySeckillParams);
 }

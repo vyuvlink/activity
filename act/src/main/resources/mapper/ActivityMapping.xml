@@ -94,4 +94,21 @@
         WHERE scene = #{scene,jdbcType=CHAR};
     </select>
 
+    <insert id="seckill" keyProperty="order_id">
+        insert into `order` (order_id, rel_id, user_id, create_time)
+        values
+        (
+            #{order_id,jdbcType=BIGINT},
+            #{rel_id,jdbcType=BIGINT},
+            #{user_id,jdbcType=BIGINT},
+            #{create_time,jdbcType=INTEGER}
+        )
+    </insert>
+
+    <select id="queryItem" resultMap="itemMap">
+        SELECT *
+        FROM item
+        WHERE item_id = #{item_id,jdbcType=BIGINT}
+    </select>
+
 </mapper>
