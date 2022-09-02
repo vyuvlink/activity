@@ -4,13 +4,12 @@ import cn.com.act.common.result.CommonPage;
 import cn.com.act.common.result.CommonResult;
 import cn.com.act.dto.ActivityDto;
 import cn.com.act.dto.ActivityQueryParams;
-import cn.com.act.dto.SaveActivityParams;
+import cn.com.act.dto.ActivitySaveParams;
+import cn.com.act.dto.ActivitySeckillParams;
 import cn.com.act.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("act")
@@ -24,8 +23,8 @@ public class ActivityController {
     }
 
     @RequestMapping(value = "/backend/save_activity", method = RequestMethod.POST)
-    public CommonResult<ActivityDto> saveActivity(@RequestBody SaveActivityParams saveActivityParams) {
-        return CommonResult.success(activityService.saveActivity(saveActivityParams));
+    public CommonResult<ActivityDto> saveActivity(@RequestBody ActivitySaveParams activitySaveParams) {
+        return CommonResult.success(activityService.saveActivity(activitySaveParams));
     }
 
     @Cacheable(cacheNames = "query_activity", key = "'query_activity_'+ #id")
@@ -39,13 +38,8 @@ public class ActivityController {
         return CommonResult.success(activityService.queryAllActivity(activityQueryParams));
     }
 
-//    @RequestMapping(value = "/list", method = RequestMethod.POST)
-//    public CommonResult<List<ActivityDto>> list(@RequestBody String id) {
-//        return CommonResult.success(activityService.list(id));
-//    }
-//
-//    @RequestMapping(value = "/scene/decode", method = RequestMethod.GET)
-//    public CommonResult<String> sceneDecode(@RequestParam String scene) {
-//        return CommonResult.success(activityService.sceneDecode(scene));
-//    }
+    @RequestMapping(value = "/seckill", method = RequestMethod.POST)
+    public CommonResult<String> seckill(@RequestBody ActivitySeckillParams activitySeckillParams) {
+        return CommonResult.success(activityService.seckill(activitySeckillParams));
+    }
 }

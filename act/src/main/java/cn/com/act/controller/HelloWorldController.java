@@ -1,14 +1,17 @@
 package cn.com.act.controller;
 
 import cn.com.act.common.enums.ResultEnum;
+import cn.com.act.common.rabbitmq.RabbitmqUtil;
 import cn.com.act.common.redis.RedisUtil;
 import cn.com.act.common.result.CommonResult;
+import cn.com.act.config.RabbitMqConfig;
 import cn.com.act.dto.UserDto;
 import cn.com.act.service.HelloService;
 import cn.com.act.util.RandomUtil;
 import cn.com.act.util.SnowFlake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.DigestUtils;
@@ -34,6 +37,9 @@ public class HelloWorldController {
 
     @Autowired
     RedisUtil redisUtil;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @GetMapping("test")
     public CommonResult sayHello(@RequestHeader HttpHeaders headers) {
@@ -120,6 +126,12 @@ public class HelloWorldController {
     @RequestMapping("/generate_activitys")
     public CommonResult<Integer> generateActivitys(@RequestParam Integer qty) {
         return CommonResult.success(helloService.generateActivitys(qty));
+    }
+
+    @RequestMapping("/rabbitmq")
+    public CommonResult<Integer> rabbitmqIn(@RequestParam String msg) {
+        rabbitTemplate.convertAndSend(RabbitMqConfig.EXCHANGE, RabbitMqConfig.ROUTINGKEY, msg);
+        return CommonResult.success(0);
     }
 }
 

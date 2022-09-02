@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80025
 File Encoding         : 65001
 
-Date: 2022-08-30 18:42:10
+Date: 2022-09-02 14:50:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,7 +35,7 @@ CREATE TABLE `activity` (
 -- ----------------------------
 -- Records of activity
 -- ----------------------------
-INSERT INTO `activity` VALUES ('8252866278749446144', 'alex的测试活动8252866278749446144', '1', '1661696711', '1664294400', '33', '14', 'http://127.0.0.1:3001/uploads/MOfN8C2I5QckpEsnRXEw3wEk.png');
+INSERT INTO `activity` VALUES ('8253910095828738048', 'alex的测试活动8253910095828738048', '1', '1661696711', '1664294400', '1035', '1016', 'http://127.0.0.1:3001/uploads/MOfN8C2I5QckpEsnRXEw3wEk.png');
 
 -- ----------------------------
 -- Table structure for context
@@ -45,12 +45,12 @@ CREATE TABLE `context` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `context` varchar(3000) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1036 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of context
 -- ----------------------------
-INSERT INTO `context` VALUES ('33', '{\"themeColor\":\"#1393FF\",\"buttonColor\":\"#FFA203\"}');
+INSERT INTO `context` VALUES ('1035', '{\"themeColor\":\"#1393FF\",\"buttonColor\":\"#FFA203\"}');
 
 -- ----------------------------
 -- Table structure for item
@@ -66,14 +66,29 @@ CREATE TABLE `item` (
   `modify_time` int unsigned DEFAULT NULL,
   `rel_id` bigint DEFAULT NULL,
   `rel_type` tinyint unsigned DEFAULT NULL,
-  PRIMARY KEY (`item_id`),
-  UNIQUE KEY `rel_id` (`rel_id`) USING BTREE
+  PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- ----------------------------
 -- Records of item
 -- ----------------------------
-INSERT INTO `item` VALUES ('8252866278749446146', '测试商品', '100', '0', '1', '1661696711', '1661696711', '8252866278749446145', '1');
+INSERT INTO `item` VALUES ('8253910095828738050', '测试商品', '100', '0', '1', '1661696711', '1661696711', '8253910095828738049', '1');
+
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `order_id` bigint NOT NULL,
+  `rel_id` bigint DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `create_time` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of order
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for scene
@@ -85,12 +100,12 @@ CREATE TABLE `scene` (
   `param` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `scene` (`scene`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of scene
 -- ----------------------------
-INSERT INTO `scene` VALUES ('0000000014', '628a2b7eac79b510c10b56aa187d4607', '{\"activity_id\":\"8252866278749446144\"}');
+INSERT INTO `scene` VALUES ('0000001016', '756d5aa6157009e4f164bd5d04a0ab82', '{\"activity_id\":\"8253910095828738048\"}');
 
 -- ----------------------------
 -- Table structure for scheme
@@ -107,7 +122,7 @@ CREATE TABLE `scheme` (
 -- ----------------------------
 -- Records of scheme
 -- ----------------------------
-INSERT INTO `scheme` VALUES ('8252866278749446145', '1', '8252866278749446144', '1');
+INSERT INTO `scheme` VALUES ('8253910095828738049', '1', '8253910095828738048', '1');
 
 -- ----------------------------
 -- Table structure for user

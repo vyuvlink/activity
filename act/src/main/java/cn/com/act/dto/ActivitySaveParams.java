@@ -3,7 +3,7 @@ package cn.com.act.dto;
 import lombok.Data;
 
 @Data
-public class SaveActivityParams {
+public class ActivitySaveParams {
     private Long id;
     private String name;
     private Long scheme_id;

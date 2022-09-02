@@ -11,7 +11,7 @@ import java.util.List;
 public interface ActivityDao {
     ScenePo sceneDecode(String scene);
 
-    ActivityPo saveActivity(SaveActivityParams saveActivityParams);
+    ActivityPo saveActivity(ActivitySaveParams activitySaveParams);
 
     ActivityDto queryActivity(Long id);
 
@@ -20,4 +20,6 @@ public interface ActivityDao {
     List<SchemeDto> querySchemes(Long id);
 
     List<ItemDto> queryItems(List<String> ids);
+
+    String seckill(ActivitySeckillParams activitySeckillParams);
 }
